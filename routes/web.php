@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\Task;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +22,16 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+/**
+ * Add New Task
+ */
+Route::post('/task', function (Request $request) {
+    //
+});
+ 
+/**
+ * Delete Task
+ */
+Route::delete('/task/{task}', function (Task $task) {
+    //
+});
