@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +17,11 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $tasks = Task::orderBy('created_at', 'asc')->get();
+ 
+    return view('welcome', [
+        'tasks' => $tasks
+    ]);
 });
 
 Auth::routes();
@@ -30,7 +35,18 @@ Route::get('/task', function (Request $request) {
  * Add New Task
  */
 Route::post('/task', function (Request $request) {
-    //
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:255',
+    ]);
+ 
+    if ($validator->fails()) {
+        return redirect('/');
+    }
+    $task = new Task;
+    $task->name = $request->name;
+    $task->save();
+ 
+    return redirect('/');
 });
  
 /**
